@@ -1,0 +1,31 @@
+version: '2.0'
+
+services:
+  hlr:
+    build: ./ubuntu-jboss-hlr
+    image: ubuntu-jboss-hlr
+    networks:
+      mynet123:
+        ipv4_address: 172.18.0.2
+    volumes:
+      - ./ubuntu-jboss-hlr/data:/opt/jboss-5.1.0.GA/server/default/data
+  gmlc:
+    build: ./ubuntu-jboss-gmlc
+    image: ubuntu-jboss-gmlc
+    depends_on:
+      - hlr
+    networks:
+      mynet123:
+        ipv4_address: 172.18.0.3
+    volumes:
+      - ./ubuntu-jboss-gmlc/data:/opt/jboss-5.1.0.GA/server/default/data 
+networks:
+  mynet123:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+       
+    
+
+
